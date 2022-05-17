@@ -8,4 +8,4 @@ User Name: user<br>
 Password: <br>
 (hasła po prostu nie ma, zostawiamy puste)<br><br>
 
-Link do tutoriala z obsługi Vaadin Designera: https://youtu.be/oFBe8DLCn-s
+Link do tutoriala z obsługi Vaadin Designera: https://youtu.be/oFBe8DLCn-s?t=1
