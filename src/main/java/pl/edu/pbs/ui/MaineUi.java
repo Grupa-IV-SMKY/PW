@@ -1,4 +1,4 @@
-package pl.edu.pbs;
+package pl.edu.pbs.ui;
 
 import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.button.Button;
@@ -27,9 +27,7 @@ public class MaineUi extends LitTemplate {
      */
     public MaineUi() {
         // You can initialise any data required for the connected UI components here.
-        vaadinButton.addClickListener(event -> {
-            Notification.show("Działa");
-        });
+        vaadinButton.addClickListener(event -> Notification.show("Działa"));
     }
 
 }
