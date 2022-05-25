@@ -11,6 +11,7 @@ import com.vaadin.flow.component.template.Id;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.data.binder.Binder;
+import com.vaadin.flow.router.Route;
 import com.vaadin.flow.shared.Registration;
 import pl.edu.pbs.model.Client;
 import pl.edu.pbs.service.ClientService;
@@ -23,6 +24,7 @@ import pl.edu.pbs.service.ClientService;
  */
 @Tag("add-client-form")
 @JsModule("./add-client-form.ts")
+@Route("/add-client")
 public class AddClientForm extends LitTemplate {
 
     @Id("clientName")

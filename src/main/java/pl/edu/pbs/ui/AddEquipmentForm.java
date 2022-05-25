@@ -14,6 +14,7 @@ import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.data.binder.Result;
 import com.vaadin.flow.data.binder.ValueContext;
 import com.vaadin.flow.data.converter.Converter;
+import com.vaadin.flow.router.Route;
 import com.vaadin.flow.shared.Registration;
 import pl.edu.pbs.model.Client;
 import pl.edu.pbs.model.Equipment;
@@ -29,6 +30,7 @@ import java.util.Optional;
  */
 @Tag("add-equipment-form")
 @JsModule("./add-equipment-form.ts")
+@Route("/add-equipment")
 public class AddEquipmentForm extends LitTemplate {
 
     @Id("equipmentName")
