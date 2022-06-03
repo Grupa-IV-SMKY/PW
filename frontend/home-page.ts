@@ -34,7 +34,6 @@ export class MainUi extends LitElement {
    <vaadin-horizontal-layout theme="spacing" style="align-items: flex-end; width: 100%;">
     <vaadin-combo-box id="nameCB" label="Sprzęt"></vaadin-combo-box>
     <vaadin-date-picker label="Przyjęcie" placeholder="Wybierz datę przyjęcia" id="admissionDP"></vaadin-date-picker>
-    <vaadin-combo-box id="clientCB" label="Klient"></vaadin-combo-box>
     <vaadin-date-picker label="Wydanie" placeholder="Wybierz datę wydania" id="issuedDP"></vaadin-date-picker>
     <vaadin-combo-box id="fixedCB" label="Naprawiony?"></vaadin-combo-box>
     <vaadin-button tabindex="0" id="resetFiltersBT">

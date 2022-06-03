@@ -36,8 +36,6 @@ public class HomePage extends LitTemplate {
 
     @Id("nameCB")
     private ComboBox<String> nameCB;
-    @Id("clientCB")
-    private ComboBox<Client> clientCB;
     @Id("fixedCB")
     private ComboBox<String> fixedCB;
     @Id("resetFiltersBT")
@@ -67,6 +65,8 @@ public class HomePage extends LitTemplate {
     private final ClientService clientService;
     private List<Client> clientList;
 
+    private Client pickedClient = null;
+
     /**
      * Creates a new HomePage.
      */
@@ -82,8 +82,14 @@ public class HomePage extends LitTemplate {
         equipmentGrid.addColumn(Equipment::getEquipmentName).setHeader("Nazwa sprzętu");
         equipmentGrid.addColumn(new LocalDateTimeRenderer<>(Equipment::getEquipmentAdmissionDate), "dd/MM/yyyy HH:mm").setHeader("Data przyjęcia");
         equipmentGrid.addColumn(Equipment::getEquipmentClientNotes).setHeader("Informacje od klienta");
-        equipmentGrid.addColumn(Equipment::isEquipmentIsFixed).setHeader("Naprawiony");
-        equipmentGrid.addColumn(Equipment::getEquipmentIssueDate).setHeader("Data wydania");
+        equipmentGrid.addColumn((value) -> {
+            if(value.isEquipmentIsFixed()){
+                return "Naprawiony";
+            } else {
+                return "W naprawie";
+            }
+        }).setHeader("Naprawiony");
+        equipmentGrid.addColumn(new LocalDateTimeRenderer<>(Equipment::getEquipmentIssueDate), "dd/MM/yyyy HH:mm").setHeader("Data wydania");
         equipmentGrid.addColumn(Equipment::getEquipmentRepairNotes).setHeader("Notatki z naprawy");
         equipmentGrid.addColumn(Equipment::getEquipmentRepairCost).setHeader("Koszt naprawy");
         equipmentGrid.getColumns().forEach(col -> col.setAutoWidth(true));
@@ -96,8 +102,6 @@ public class HomePage extends LitTemplate {
         updateGrids();
 
         nameCB.setItems(equipmentList.stream().map(Equipment::getEquipmentName).distinct().collect(Collectors.toList()));
-        clientCB.setItems(clientList);
-        clientCB.setItemLabelGenerator(Client::getClientName);
         fixedCB.setItems("Tak", "Nie");
 
         addClientForm.setVisible(false);
@@ -107,23 +111,37 @@ public class HomePage extends LitTemplate {
     @PostConstruct
     private void init(){
         resetFiltersBT.addClickListener(buttonClickEvent -> {
+            closeClientForm();
+            closeEquipmentForm();
             nameCB.setValue(null);
-            clientCB.setValue(null);
+            pickedClient = null;
             fixedCB.setValue(null);
             issuedDP.setValue(null);
             admissionDP.setValue(null);
-            closeClientForm();
-            closeEquipmentForm();
+            nameCB.setItems(equipmentList.stream().map(Equipment::getEquipmentName).distinct().collect(Collectors.toList()));
+            refreshEquipmentList();
         });
 
-        nameCB.addValueChangeListener(value -> refreshEquipmentList());
-        clientCB.addValueChangeListener(value -> {
-            refreshEquipmentList();
-            clientGrid.select(value.getValue());
+        nameCB.addValueChangeListener(value -> {
+            if(value != null) {
+                refreshEquipmentList();
+            }
         });
-        fixedCB.addValueChangeListener(value -> refreshEquipmentList());
-        issuedDP.addValueChangeListener(value -> refreshEquipmentList());
-        admissionDP.addValueChangeListener(value -> refreshEquipmentList());
+        fixedCB.addValueChangeListener(value -> {
+            if(value != null) {
+                refreshEquipmentList();
+            }
+        });
+        issuedDP.addValueChangeListener(value -> {
+            if(value != null) {
+                refreshEquipmentList();
+            }
+        });
+        admissionDP.addValueChangeListener(value -> {
+            if(value != null) {
+                refreshEquipmentList();
+            }
+        });
 
         clientGrid.asSingleSelect().addValueChangeListener(event -> handleClientSelect(event.getValue()));
         equipmentGrid.asSingleSelect().addValueChangeListener(event -> openEquipmentForm(event.getValue()));
@@ -144,13 +162,22 @@ public class HomePage extends LitTemplate {
     }
 
     private void updateClientList() {
-        clientList = clientService.getClientByName(clientTF.getValue());
+        clientList = clientService.getAllClients();
+        clientList = clientList.stream().filter(client -> client.getClientName().contains(clientTF.getValue())).collect(Collectors.toList());
         updateGrids();
     }
 
     private void handleClientSelect(Client value) {
-        openClientForm(value);
-        clientCB.setValue(value);
+        if(value == null){
+            pickedClient = null;
+            nameCB.setItems(equipmentList.stream().map(Equipment::getEquipmentName).distinct().collect(Collectors.toList()));
+            refreshEquipmentList();
+        } else {
+            openClientForm(value);
+            pickedClient = value;
+            nameCB.setItems(equipmentService.getAllEquipment().stream().filter(equipment -> Objects.equals(equipment.getClientID(), value.getClientID())).map(Equipment::getEquipmentName).distinct().collect(Collectors.toList()));
+            refreshEquipmentList();
+        }
     }
 
     private void openClientForm(Client client){
@@ -175,12 +202,12 @@ public class HomePage extends LitTemplate {
 
     private void closeClientForm(){
         addClientForm.setVisible(false);
-        updateGrids();
+        //updateGrids();
     }
 
     private void closeEquipmentForm(){
         addEquipmentForm.setVisible(false);
-        updateEquipmentGrid();
+        //updateEquipmentGrid();
     }
 
     private void saveClient(AddClientForm.SaveEvent event){
@@ -213,11 +240,11 @@ public class HomePage extends LitTemplate {
 
     private void refreshEquipmentList(){
         boolean isName = nameCB.getValue() != null;
-        boolean isClient = clientCB.getValue() != null;
-        boolean isFixedSelected = fixedCB.getValue() != null;
+        boolean isClient = (pickedClient != null);
         boolean isIssued = issuedDP.getValue() != null;
         boolean isAdmissioned = admissionDP.getValue() != null;
         boolean isFixed = Objects.equals(fixedCB.getValue(), "Tak");
+        boolean isFixedSelected = fixedCB.getValue() != null;
 
         equipmentList = equipmentService.getAllEquipment();
 
@@ -225,7 +252,7 @@ public class HomePage extends LitTemplate {
             equipmentList = equipmentList.stream().filter(equipment -> Objects.equals(equipment.getEquipmentName(), nameCB.getValue())).collect(Collectors.toList());
         }
         if(isClient){
-            equipmentList = equipmentList.stream().filter(equipment -> Objects.equals(equipment.getClientID(), clientCB.getValue().getClientID())).collect(Collectors.toList());
+            equipmentList = equipmentList.stream().filter(equipment -> Objects.equals(equipment.getClientID(), pickedClient.getClientID())).collect(Collectors.toList());
         }
         if(isFixedSelected){
             equipmentList = equipmentList.stream().filter(equipment -> Objects.equals(equipment.isEquipmentIsFixed(), isFixed)).collect(Collectors.toList());
