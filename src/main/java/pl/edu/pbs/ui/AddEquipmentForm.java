@@ -40,12 +40,13 @@ public class AddEquipmentForm extends LitTemplate {
     @Id("equipmentClientNotes")
     private TextField equipmentClientNotes;
     @Id("saveClientBT")
-    private Button saveClientBT;
+    private Button saveEquipmentBT;
     @Id("deleteClientBT")
-    private Button deleteClientBT;
+    private Button deleteEquipmentBT;
     @Id("closeFormBT")
     private Button closeFormBT;
-
+    @Id("issueEquipmentBT")
+    private Button issueEquipmentBT;
     Binder<Equipment> binder = new BeanValidationBinder<>(Equipment.class);
     ClientService clientService;
 
@@ -55,11 +56,11 @@ public class AddEquipmentForm extends LitTemplate {
     public AddEquipmentForm(ClientService clientService) {
         // You can initialise any data required for the connected UI components here.
         this.clientService = clientService;
-        saveClientBT.addClickListener(event -> validateAndSave());
-        deleteClientBT.addClickListener(event -> fireEvent(new DeleteEvent(this, binder.getBean())));
+        saveEquipmentBT.addClickListener(event -> validateAndSave());
+        deleteEquipmentBT.addClickListener(event -> fireEvent(new DeleteEvent(this, binder.getBean())));
         closeFormBT.addClickListener(event -> fireEvent(new CloseEvent(this)));
+        issueEquipmentBT.addClickListener(event -> fireEvent(new IssueEvent(this, binder.getBean())));
 
-//        clientCB.setItems(new Client(0, "Client1", "mail", "01010101"), new Client(1, "Client2", "mail2", "010101012"));
         clientID.setItems(clientService.getAllClients());
         clientID.setItemLabelGenerator(Client::getClientName);
 
@@ -110,6 +111,12 @@ public class AddEquipmentForm extends LitTemplate {
     public static class CloseEvent extends AddEquipmentFormEvent{
         CloseEvent(AddEquipmentForm source){
             super(source, null);
+        }
+    }
+
+    public static class IssueEvent extends AddEquipmentFormEvent{
+        IssueEvent(AddEquipmentForm source, Equipment equipment){
+            super(source, equipment);
         }
     }
 

@@ -17,21 +17,14 @@ export class AddEquipmentForm extends LitElement {
   render() {
     return html`
 <vaadin-form-layout style="width: 100%; height: 100%;">
- <vaadin-text-field id="equipmentName" type="text" placeholder="Podaj nazwę sprzętu:" label="Nazwa sprzętu"></vaadin-text-field>
- <vaadin-combo-box id="clientID" placeholder="Imię klienta" label="Klient"></vaadin-combo-box>
- <vaadin-text-field label="Notatki klienta" placeholder="Notatki od klienta" id="equipmentClientNotes" type="text"></vaadin-text-field>
- <vaadin-button id="saveEquipmentBT" tabindex="0" theme="primary">
+ <vaadin-text-field id="equipmentRepairCost" type="text" placeholder="Podaj koszt naprawy:" label="Koszt naprawy"></vaadin-text-field>
+ <vaadin-text-field label="Notatki technika" placeholder="Notatki z naprawy" id="equipmentRepairNotes" type="text"></vaadin-text-field>
+ <vaadin-button id="saveIssueBT" tabindex="0" theme="primary">
    Zapisz 
  </vaadin-button>
- <vaadin-button id="deleteEquipmentBT" tabindex="0" theme="error">
-   Usuń 
- </vaadin-button>
- <vaadin-button id="closeFormBT" tabindex="0">
+ <vaadin-button id="closeIssueBT" tabindex="0">
    Anuluj 
  </vaadin-button>
-  <vaadin-button id="issueEquipmentBT" tabindex="0" theme="primary">
-    Zdaj sprzęt
-  </vaadin-button>
 </vaadin-form-layout>
 `;
   }

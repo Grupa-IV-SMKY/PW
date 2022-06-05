@@ -14,6 +14,7 @@ import java.util.Optional;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Equipment {
+    //ADMISSION
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int equipmentID;
@@ -23,6 +24,8 @@ public class Equipment {
     private LocalDateTime equipmentAdmissionDate;
     private String equipmentClientNotes;
     private Integer clientID;
+
+    //ISSUE
     private LocalDateTime equipmentIssueDate;
     private boolean equipmentIsFixed;
     private int equipmentRepairCost;

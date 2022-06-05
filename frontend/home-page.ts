@@ -50,6 +50,7 @@ export class MainUi extends LitElement {
   </vaadin-vertical-layout>
   <add-client-form id="addClientForm" style="flex:1; flex-shrink: 0; flex-grow: 0.5;"></add-client-form>
   <add-equipment-form id="addEquipmentForm" style="flex:1; flex-shrink: 0; flex-grow: 0.5;"></add-equipment-form>
+  <issue-equipment-form id="issueEquipmentForm" style="flex:1; flex-shrink: 0; flex-grow: 0.5;"></issue-equipment-form>
  </vaadin-horizontal-layout>
 </vaadin-vertical-layout>
 `;

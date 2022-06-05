@@ -1,5 +1,6 @@
 package pl.edu.pbs.ui;
 
+import com.vaadin.flow.component.ComponentEvent;
 import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.combobox.ComboBox;
@@ -56,6 +57,8 @@ public class HomePage extends LitTemplate {
     private AddClientForm addClientForm;
     @Id("addEquipmentForm")
     private AddEquipmentForm addEquipmentForm;
+    @Id("issueEquipmentForm")
+    private AddEquipmentForm issueEquipmentForm;
     @Id("clientTF")
     private TextField clientTF;
 
@@ -153,6 +156,9 @@ public class HomePage extends LitTemplate {
         addEquipmentForm.addListener(AddEquipmentForm.SaveEvent.class, this::saveEquipment);
         addEquipmentForm.addListener(AddEquipmentForm.DeleteEvent.class, this::deleteEquipment);
         addEquipmentForm.addListener(AddEquipmentForm.CloseEvent.class, e -> closeEquipmentForm());
+        addEquipmentForm.addListener(AddEquipmentForm.IssueEvent.class, this::openIssueEquipmentForm);
+
+
 
         addEquipmentBT.addClickListener(event -> openEquipmentForm(new Equipment()));
         addClientBT.addClickListener(event -> openClientForm(new Client()));
@@ -180,11 +186,19 @@ public class HomePage extends LitTemplate {
         }
     }
 
+    private void openIssueEquipmentForm(AddEquipmentForm.IssueEvent event) {
+        closeEquipmentForm();
+        closeClientForm();
+        issueEquipmentForm.setEquipment(event.getEquipment());
+        issueEquipmentForm.setVisible(true);
+    }
+
     private void openClientForm(Client client){
         if(client == null){
             closeClientForm();
         } else {
             addEquipmentForm.setVisible(false);
+            issueEquipmentForm.setVisible(false);
             addClientForm.setClient(client);
             addClientForm.setVisible(true);
         }
@@ -195,9 +209,15 @@ public class HomePage extends LitTemplate {
             closeEquipmentForm();
         } else {
             addClientForm.setVisible(false);
+            issueEquipmentForm.setVisible(false);
             addEquipmentForm.setEquipment(equipment);
             addEquipmentForm.setVisible(true);
         }
+    }
+
+    private void closeIssueEquipmentForm(){
+        issueEquipmentForm.setVisible(false);
+        //updateGrids();
     }
 
     private void closeClientForm(){
