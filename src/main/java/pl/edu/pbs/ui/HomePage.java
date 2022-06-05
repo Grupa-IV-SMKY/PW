@@ -109,6 +109,7 @@ public class HomePage extends LitTemplate {
 
         addClientForm.setVisible(false);
         addEquipmentForm.setVisible(false);
+        issueEquipmentForm.setVisible(false);
     }
 
     @PostConstruct
@@ -158,7 +159,8 @@ public class HomePage extends LitTemplate {
         addEquipmentForm.addListener(AddEquipmentForm.CloseEvent.class, e -> closeEquipmentForm());
         addEquipmentForm.addListener(AddEquipmentForm.IssueEvent.class, this::openIssueEquipmentForm);
 
-
+        issueEquipmentForm.addListener(IssueEquipmentForm.SaveEvent.class, this::saveEquipment);
+        issueEquipmentForm.addListener(IssueEquipmentForm.CloseEvent.class, e -> closeIssueEquipmentForm());
 
         addEquipmentBT.addClickListener(event -> openEquipmentForm(new Equipment()));
         addClientBT.addClickListener(event -> openClientForm(new Client()));
@@ -240,6 +242,13 @@ public class HomePage extends LitTemplate {
     private void saveEquipment(AddEquipmentForm.SaveEvent event){
         equipmentService.saveEquipment(event.getEquipment());
         closeEquipmentForm();
+        equipmentList = equipmentService.getAllEquipment();
+        updateEquipmentGrid();
+    }
+
+    private void saveEquipment(IssueEquipmentForm.SaveEvent event){
+        equipmentService.saveEquipment(event.getEquipment());
+        closeIssueEquipmentForm();
         equipmentList = equipmentService.getAllEquipment();
         updateEquipmentGrid();
     }

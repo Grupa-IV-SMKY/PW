@@ -1,7 +1,8 @@
 import { LitElement, html, css, customElement } from 'lit-element';
 import '@vaadin/vaadin-form-layout/vaadin-form-layout.js';
-import '@vaadin/text-field/src/vaadin-text-field.js';
 import '@vaadin/combo-box/src/vaadin-combo-box.js';
+import '@vaadin/text-field/src/vaadin-text-field.js';
+import '@vaadin/text-area/src/vaadin-text-area.js';
 
 @customElement('add-equipment-form')
 export class AddEquipmentForm extends LitElement {
@@ -20,6 +21,7 @@ export class AddEquipmentForm extends LitElement {
  <vaadin-text-field id="equipmentName" type="text" placeholder="Podaj nazwę sprzętu:" label="Nazwa sprzętu"></vaadin-text-field>
  <vaadin-combo-box id="clientID" placeholder="Imię klienta" label="Klient"></vaadin-combo-box>
  <vaadin-text-field label="Notatki klienta" placeholder="Notatki od klienta" id="equipmentClientNotes" type="text"></vaadin-text-field>
+ <vaadin-text-area label="Notatki technika" placeholder="Notatki z przebiegu naprawy" id="equipmentRepairNotes"></vaadin-text-area>
  <vaadin-button id="saveEquipmentBT" tabindex="0" theme="primary">
    Zapisz 
  </vaadin-button>
@@ -29,9 +31,9 @@ export class AddEquipmentForm extends LitElement {
  <vaadin-button id="closeFormBT" tabindex="0">
    Anuluj 
  </vaadin-button>
-  <vaadin-button id="issueEquipmentBT" tabindex="0" theme="primary">
-    Zdaj sprzęt
-  </vaadin-button>
+ <vaadin-button id="issueEquipmentBT" tabindex="0" theme="primary">
+   Zdaj sprzęt 
+ </vaadin-button>
 </vaadin-form-layout>
 `;
   }

@@ -14,8 +14,12 @@ import com.vaadin.flow.data.converter.Converter;
 import com.vaadin.flow.data.converter.StringToFloatConverter;
 import com.vaadin.flow.data.converter.StringToIntegerConverter;
 import com.vaadin.flow.shared.Registration;
+import org.apache.tomcat.jni.Time;
 import pl.edu.pbs.model.Client;
 import pl.edu.pbs.model.Equipment;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 /**
  * A Designer generated component for the issue-equipment-form template.
@@ -36,6 +40,7 @@ public class IssueEquipmentForm extends LitTemplate {
     @Id("closeIssueBT")
     private Button closeIssueBT;
 
+    private LocalDateTime equipmentIssueDate;
     Binder<Equipment> binder = new Binder<>(Equipment.class);
 
     public IssueEquipmentForm() {
@@ -52,6 +57,8 @@ public class IssueEquipmentForm extends LitTemplate {
 
     private void validateAndSave(){
         if(binder.isValid()){
+            binder.getBean().setEquipmentIssueDate(LocalDateTime.now());
+            binder.getBean().setEquipmentIsFixed(true);
             fireEvent(new IssueEquipmentForm.SaveEvent(this, binder.getBean()));
         }
     }

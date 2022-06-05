@@ -8,6 +8,7 @@ import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.dependency.JsModule;
 import com.vaadin.flow.component.littemplate.LitTemplate;
 import com.vaadin.flow.component.template.Id;
+import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.data.binder.Binder;
@@ -47,6 +48,8 @@ public class AddEquipmentForm extends LitTemplate {
     private Button closeFormBT;
     @Id("issueEquipmentBT")
     private Button issueEquipmentBT;
+    @Id("equipmentRepairNotes")
+    private TextArea equipmentRepairNotes;
     Binder<Equipment> binder = new BeanValidationBinder<>(Equipment.class);
     ClientService clientService;
 
