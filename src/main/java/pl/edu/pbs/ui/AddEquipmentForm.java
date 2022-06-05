@@ -39,9 +39,9 @@ public class AddEquipmentForm extends LitTemplate {
     private ComboBox<Client> clientID;
     @Id("equipmentClientNotes")
     private TextField equipmentClientNotes;
-    @Id("saveClientBT")
+    @Id("saveEquipmentBT")
     private Button saveEquipmentBT;
-    @Id("deleteClientBT")
+    @Id("deleteEquipmentBT")
     private Button deleteEquipmentBT;
     @Id("closeFormBT")
     private Button closeFormBT;

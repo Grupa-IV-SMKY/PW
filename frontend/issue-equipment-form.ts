@@ -3,7 +3,7 @@ import '@vaadin/vaadin-form-layout/vaadin-form-layout.js';
 import '@vaadin/text-field/src/vaadin-text-field.js';
 import '@vaadin/combo-box/src/vaadin-combo-box.js';
 
-@customElement('add-equipment-form')
+@customElement('issue-equipment-form')
 export class AddEquipmentForm extends LitElement {
   static get styles() {
     return css`

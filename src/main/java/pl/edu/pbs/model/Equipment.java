@@ -28,7 +28,7 @@ public class Equipment {
     //ISSUE
     private LocalDateTime equipmentIssueDate;
     private boolean equipmentIsFixed;
-    private int equipmentRepairCost;
+    private float equipmentRepairCost;
     private String equipmentRepairNotes;
 
     public String getClientNameFromEquipment(ClientService service){

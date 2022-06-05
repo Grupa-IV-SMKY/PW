@@ -58,7 +58,7 @@ public class HomePage extends LitTemplate {
     @Id("addEquipmentForm")
     private AddEquipmentForm addEquipmentForm;
     @Id("issueEquipmentForm")
-    private AddEquipmentForm issueEquipmentForm;
+    private IssueEquipmentForm issueEquipmentForm;
     @Id("clientTF")
     private TextField clientTF;
 

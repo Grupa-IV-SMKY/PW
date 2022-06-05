@@ -10,6 +10,9 @@ import com.vaadin.flow.component.littemplate.LitTemplate;
 import com.vaadin.flow.component.template.Id;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.Binder;
+import com.vaadin.flow.data.converter.Converter;
+import com.vaadin.flow.data.converter.StringToFloatConverter;
+import com.vaadin.flow.data.converter.StringToIntegerConverter;
 import com.vaadin.flow.shared.Registration;
 import pl.edu.pbs.model.Client;
 import pl.edu.pbs.model.Equipment;
@@ -39,6 +42,10 @@ public class IssueEquipmentForm extends LitTemplate {
         // You can initialise any data required for the connected UI components here.
         saveIssueBT.addClickListener(event -> validateAndSave());
         closeIssueBT.addClickListener(event -> fireEvent(new IssueEquipmentForm.CloseEvent(this)));
+
+        binder.forField(equipmentRepairCost)
+                .withConverter(new StringToFloatConverter("Nie powiodła się zmiana tekstu na liczbę"))
+                .bind(Equipment::getEquipmentRepairCost, Equipment::setEquipmentRepairCost);
 
         binder.bindInstanceFields(this);
     }
